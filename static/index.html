@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Depósito de Herramientas</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+  <div class="marca">
+    <img src="/static/escudo.png" alt="E.P.E.T. N°9" class="escudo">
+    <div class="logo">DEPÓ<span>SIT</span>O
+      <span class="colegio">E.P.E.T. N°9 · Laguna Blanca</span>
+    </div>
+  </div>
+  <div class="estado">
+    <span class="reloj" id="reloj">--:--</span>
+    <span class="punto" id="punto" title="Conectado"></span>
+  </div>
+</header>
+
+<nav>
+  <button data-vista="inicio" class="activo">Inicio</button>
+  <button data-vista="retiro">Retirar</button>
+  <button data-vista="devolucion">Devolver</button>
+  <button data-vista="inventario">Inventario</button>
+  <button data-vista="historial">Historial</button>
+  <button data-vista="ajustes">Ajustes</button>
+</nav>
+
+<main>
+
+  <!-- ── INICIO ────────────────────────────────────────────────────────── -->
+  <section class="vista activa" id="v-inicio">
+    <h1 class="titulo">PANEL <span style="color:var(--orange)">GENERAL</span></h1>
+    <p class="subtitulo">Sistema de control — Depósito de herramientas</p>
+
+    <div id="alerta-inicio"></div>
+    <div class="stats" id="stats"></div>
+
+    <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+      <button class="chico naranja" style="flex:1;padding:14px" data-ir="retiro">↑ REGISTRAR RETIRO</button>
+      <button class="chico" style="flex:1;padding:14px" data-ir="devolucion">↓ REGISTRAR DEVOLUCIÓN</button>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span style="font-family:var(--display);font-size:19px;letter-spacing:2px">AFUERA AHORA</span>
+      <button class="chico" data-ir="inventario">VER INVENTARIO →</button>
+    </div>
+    <div class="tarjeta" id="afuera-ahora"></div>
+  </section>
+
+  <!-- ── RETIRO ────────────────────────────────────────────────────────── -->
+  <section class="vista" id="v-retiro">
+    <h1 class="titulo">RETIRAR</h1>
+    <p class="subtitulo">Escaneá la herramienta y elegí al alumno</p>
+
+    <div id="retiro-form">
+      <div class="paso" id="paso-h">
+        <div class="paso-num">PASO 01 — HERRAMIENTA</div>
+        <div class="paso-tit">Escanear código de barras</div>
+        <div id="retiro-h-vacio">
+          <div class="zona-scan esperando">
+            <div class="icono">▌▎▍▏▌▎▍</div>
+            <div class="txt">Pasá el lector por la etiqueta</div>
+            <div class="sub">o escribí el código y presioná Enter</div>
+          </div>
+          <div style="margin-top:12px">
+            <input type="text" class="codigo" id="retiro-codigo" placeholder="HER-001" autocomplete="off">
+          </div>
+        </div>
+        <div id="retiro-h-ok" style="display:none"></div>
+      </div>
+
+      <div class="paso" id="paso-a">
+        <div class="paso-num">PASO 02 — ALUMNO</div>
+        <div class="paso-tit">Ingresar DNI</div>
+        <div id="retiro-a-vacio">
+          <div class="fila">
+            <input type="text" class="codigo" id="retiro-dni" placeholder="00000000"
+                   inputmode="numeric" maxlength="10" autocomplete="off">
+            <button class="chico naranja" id="btn-dni" style="padding:12px 20px">BUSCAR</button>
+          </div>
+          <div id="dni-msg"></div>
+          <details style="margin-top:14px">
+            <summary style="font-size:12px;color:var(--dim);cursor:pointer">
+              ¿No recuerda el DNI? Buscar por apellido
+            </summary>
+            <input type="text" id="retiro-buscar" placeholder="Escribí el apellido…"
+                   style="margin-top:10px" autocomplete="off">
+            <div class="lista-alumnos" id="retiro-lista"></div>
+          </details>
+        </div>
+        <div id="retiro-a-ok" style="display:none"></div>
+      </div>
+
+      <div class="paso" id="paso-c" style="display:none">
+        <div class="paso-num">PASO 03 — CANTIDAD</div>
+        <div class="paso-tit">¿Cuántas se lleva?</div>
+        <div class="fila">
+          <button class="chico" id="menos" style="padding:11px 17px;font-size:17px">−</button>
+          <input type="number" id="retiro-cantidad" value="1" min="1" style="text-align:center;font-size:19px;font-family:var(--display)">
+          <button class="chico" id="mas" style="padding:11px 17px;font-size:17px">+</button>
+        </div>
+        <div style="margin-top:12px">
+          <label class="campo">Observación (opcional)</label>
+          <input type="text" id="retiro-obs" placeholder="Ej: para el taller de soldadura">
+        </div>
+      </div>
+
+      <button class="primario" id="btn-retiro" disabled>CONFIRMAR RETIRO</button>
+    </div>
+
+    <div id="retiro-exito" style="display:none"></div>
+  </section>
+
+  <!-- ── DEVOLUCIÓN ────────────────────────────────────────────────────── -->
+  <section class="vista" id="v-devolucion">
+    <h1 class="titulo">DEVOLVER</h1>
+    <p class="subtitulo">Escaneá la herramienta que traen de vuelta</p>
+
+    <div id="dev-form">
+      <div class="paso">
+        <div class="paso-num">PASO 01 — HERRAMIENTA</div>
+        <div class="paso-tit">Escanear código de barras</div>
+        <div id="dev-h-vacio">
+          <div class="zona-scan esperando">
+            <div class="icono">▌▎▍▏▌▎▍</div>
+            <div class="txt">Pasá el lector por la etiqueta</div>
+            <div class="sub">o escribí el código y presioná Enter</div>
+          </div>
+          <div style="margin-top:12px">
+            <input type="text" class="codigo" id="dev-codigo" placeholder="HER-001" autocomplete="off">
+          </div>
+        </div>
+        <div id="dev-h-ok" style="display:none"></div>
+      </div>
+
+      <div class="paso" id="dev-paso-p" style="display:none">
+        <div class="paso-num">PASO 02 — ¿QUIÉN LA DEVUELVE?</div>
+        <div class="paso-tit">Elegí el préstamo a cerrar</div>
+        <div id="dev-prestamos"></div>
+      </div>
+    </div>
+
+    <div id="dev-exito" style="display:none"></div>
+  </section>
+
+  <!-- ── INVENTARIO ────────────────────────────────────────────────────── -->
+  <section class="vista" id="v-inventario">
+    <h1 class="titulo">INVENTARIO</h1>
+    <p class="subtitulo" id="inv-sub">Cargando…</p>
+
+    <input type="text" id="inv-buscar" placeholder="Buscar herramienta…" style="margin-bottom:12px" autocomplete="off">
+    <div class="filtros" id="inv-filtros"></div>
+    <div id="inv-lista"></div>
+  </section>
+
+  <!-- ── HISTORIAL ─────────────────────────────────────────────────────── -->
+  <section class="vista" id="v-historial">
+    <h1 class="titulo">HISTORIAL</h1>
+    <p class="subtitulo" id="hist-sub">Cargando…</p>
+    <input type="text" id="hist-buscar" placeholder="Filtrar por alumno o herramienta…" style="margin-bottom:14px" autocomplete="off">
+    <div class="tarjeta" id="hist-lista"></div>
+  </section>
+
+  <!-- ── AJUSTES ───────────────────────────────────────────────────────── -->
+  <section class="vista" id="v-ajustes">
+    <h1 class="titulo">AJUSTES</h1>
+    <p class="subtitulo">Etiquetas, alta de herramientas y alumnos</p>
+
+    <div class="tarjeta" style="margin-bottom:12px">
+      <div class="paso-num">ETIQUETAS</div>
+      <div class="paso-tit">Códigos de barras para imprimir</div>
+      <p style="font-size:13px;color:var(--dim);margin-bottom:14px;line-height:1.6">
+        Genera una hoja con el código de cada herramienta. Imprimila en papel autoadhesivo,
+        recortá y pegá una etiqueta en cada una. Cubrilas con cinta transparente para que aguanten el taller.
+      </p>
+      <button class="chico naranja" style="padding:12px 22px" onclick="window.open('/etiquetas','_blank')">
+        ABRIR HOJA DE ETIQUETAS
+      </button>
+    </div>
+
+    <div class="tarjeta" style="margin-bottom:12px">
+      <div class="paso-num">NUEVA HERRAMIENTA</div>
+      <div class="paso-tit">Agregar al inventario</div>
+      <label class="campo">Nombre</label>
+      <input type="text" id="nh-nombre" placeholder="Ej: Soplete" style="margin-bottom:12px">
+      <div class="fila" style="margin-bottom:14px">
+        <div style="flex:1">
+          <label class="campo">Categoría</label>
+          <select id="nh-cat">
+            <option>Manual</option><option>Eléctrica</option><option>Soldadura</option>
+            <option>Medición</option><option>Llaves</option><option>Corte</option><option>Otros</option>
+          </select>
+        </div>
+        <div style="width:110px">
+          <label class="campo">Cantidad</label>
+          <input type="number" id="nh-cant" value="1" min="1">
+        </div>
+      </div>
+      <button class="chico naranja" style="padding:11px 20px" id="btn-nh">AGREGAR HERRAMIENTA</button>
+    </div>
+
+    <div class="tarjeta">
+      <div class="paso-num">NUEVO ALUMNO</div>
+      <div class="paso-tit">Agregar a la lista</div>
+      <label class="campo">Apellido y Nombre</label>
+      <input type="text" id="na-nombre" placeholder="Ej: Pérez, Juan Carlos" style="margin-bottom:12px">
+      <div class="fila" style="margin-bottom:14px">
+        <div style="flex:1">
+          <label class="campo">División</label>
+          <input type="text" id="na-div" placeholder="Ej: 7 II">
+        </div>
+        <div style="flex:1">
+          <label class="campo">DNI</label>
+          <input type="text" id="na-dni" placeholder="00000000" inputmode="numeric" maxlength="10">
+        </div>
+      </div>
+      <button class="chico naranja" style="padding:11px 20px" id="btn-na">AGREGAR ALUMNO</button>
+    </div>
+  </section>
+
+</main>
+
+<div id="toast"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>

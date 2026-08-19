@@ -1,0 +1,40 @@
+DEPOSITO DE HERRAMIENTAS
+========================
+
+PARA USAR (Windows):
+  1. Doble clic en INICIAR.bat
+  2. Se abre solo en el navegador
+  3. Para cerrar: cerrar la ventana negra
+
+  La primera vez tarda 1-2 min instalando. Necesita Python instalado
+  (python.org/downloads - tildar "Add Python to PATH").
+
+EL DNI:
+  Al retirar, se le pide el DNI al alumno. Se puede escribir con
+  puntos o sin puntos, da igual. Si no se lo acuerda, hay un
+  desplegable abajo para buscarlo por apellido.
+
+EL ESCANER:
+  Cualquier lector USB de codigo de barras sirve. Funcionan como
+  teclado: se enchufan y andan, sin driver ni configuracion.
+  Probalo abriendo el Bloc de notas y escaneando algo: si escribe
+  numeros, ya esta listo.
+
+PRIMER PASO: LAS ETIQUETAS
+  Ajustes > ABRIR HOJA DE ETIQUETAS > Imprimir.
+  Salen 68 etiquetas (una por unidad). Papel autoadhesivo, recortar,
+  pegar en cada herramienta y cubrir con cinta transparente.
+
+LOS DATOS:
+  Todo se guarda en el archivo deposito.db (misma carpeta).
+  Para hacer backup: copiar ese archivo a un pendrive.
+
+  La lista de alumnos esta en el archivo .env. Para agregar o
+  corregir un alumno, se puede editar ahi con el Bloc de notas
+  (una linea por alumno) y reiniciar la app. Tambien se pueden
+  agregar desde Ajustes, sin tocar archivos.
+
+DESDE EL CELULAR (opcional):
+  Si hay wifi, al arrancar muestra una direccion tipo 192.168.x.x:8000
+  Poniendo eso en el navegador del celular se accede igual.
+  Sin wifi funciona igual en la notebook.

@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Barlow:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Paleta E.P.E.T. N°9 — celeste y amarillo del escudo sobre gris
+     engranaje. Fondo oscuro para que el celeste y el amarillo tengan
+     contraste suficiente en la pantalla del deposito. */
+  --bg: #12161a;
+  --bg2: #1a2028;
+  --bg3: #232b35;
+  --border: #313c48;
+
+  --celeste: #5cb3e4;        /* azul del escudo */
+  --celeste-dim: #123a52;
+  --amarillo: #f5d020;       /* rayo del escudo */
+  --amarillo-dim: #4a3f08;
+  --gris: #8896a5;           /* engranaje */
+
+  /* Alias para no reescribir cada regla: naranja pasa a ser el celeste */
+  --orange: var(--celeste);
+  --orange-dim: var(--celeste-dim);
+  --yellow: var(--amarillo);
+
+  --green: #3fbf6f;
+  --green-dim: #10402a;
+  --red: #e05252;
+  --red-dim: #5c1f1f;
+  --text: #e8edf2;
+  --dim: #8896a5;
+  --dimmer: #4d5a68;
+  --radius: 4px;
+  --display: 'Bebas Neue', sans-serif;
+  --mono: 'DM Mono', monospace;
+  --body: 'Barlow', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER ────────────────────────────────────────────────────────────── */
+header {
+  background: linear-gradient(180deg, #1a2028 0%, var(--bg) 100%);
+  border-bottom: 3px solid var(--celeste);
+  box-shadow: 0 3px 0 var(--amarillo);
+  padding: 12px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.marca { display: flex; align-items: center; gap: 13px; }
+.escudo { width: 42px; height: 42px; object-fit: contain; flex-shrink: 0; }
+.logo { font-family: var(--display); font-size: 24px; letter-spacing: 2px; line-height: 1; }
+.logo span { color: var(--celeste); }
+.logo .colegio {
+  display: block; font-family: var(--body); font-size: 10px; font-weight: 600;
+  letter-spacing: 1.2px; color: var(--gris); text-transform: uppercase; margin-top: 3px;
+}
+.reloj { font-family: var(--mono); font-size: 13px; color: var(--dim); }
+.estado { display: flex; align-items: center; gap: 8px; }
+.punto { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulso 2s infinite; }
+.punto.off { background: var(--red); animation: none; }
+@keyframes pulso { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+/* ── NAV ───────────────────────────────────────────────────────────────── */
+nav { display: flex; background: var(--bg2); border-bottom: 1px solid var(--border); overflow-x: auto; }
+nav::-webkit-scrollbar { display: none; }
+nav button {
+  flex: 1; min-width: 92px; padding: 13px 8px;
+  background: none; border: none; border-bottom: 2px solid transparent;
+  color: var(--dim); font-family: var(--body); font-size: 12px; font-weight: 700;
+  letter-spacing: .8px; text-transform: uppercase; cursor: pointer; transition: .15s;
+}
+nav button:hover { color: var(--text); }
+nav button.activo { color: var(--celeste); border-bottom-color: var(--celeste); background: #212a35; }
+
+/* ── LAYOUT ────────────────────────────────────────────────────────────── */
+main { padding: 20px; max-width: 1100px; margin: 0 auto; }
+.vista { display: none; animation: entrar .18s ease; }
+.vista.activa { display: block; }
+@keyframes entrar { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+h1.titulo { font-family: var(--display); font-size: 32px; letter-spacing: 3px; }
+p.subtitulo { font-family: var(--mono); font-size: 11px; color: var(--dim); text-transform: uppercase; margin-bottom: 20px; }
+
+/* ── TARJETAS ──────────────────────────────────────────────────────────── */
+.tarjeta { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 10px; margin-bottom: 18px; }
+.stat { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; position: relative; overflow: hidden; }
+.stat::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; }
+.stat.naranja::before { background: var(--amarillo); }
+.stat.verde::before   { background: var(--green); }
+.stat.amarillo::before{ background: var(--yellow); }
+.stat.rojo::before    { background: var(--red); }
+.stat .num { font-family: var(--display); font-size: 40px; line-height: 1; }
+.stat .lbl { font-size: 11px; font-weight: 600; color: var(--dim); text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+
+.alerta { border-radius: var(--radius); padding: 11px 15px; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; font-size: 13px; font-weight: 600; }
+.alerta.naranja { background: var(--amarillo-dim); border: 1px solid var(--amarillo); color: var(--amarillo); }
+.alerta.verde   { background: var(--green-dim);  border: 1px solid var(--green);  color: var(--green); }
+.alerta.roja    { background: var(--red-dim);    border: 1px solid var(--red);    color: #fca5a5; }
+
+/* ── ESCANEO ───────────────────────────────────────────────────────────── */
+.paso { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 12px; }
+.paso.hecho { border-color: var(--green); }
+.paso-num { font-family: var(--display); font-size: 12px; letter-spacing: 2px; color: var(--orange); margin-bottom: 6px; }
+.paso-tit { font-size: 17px; font-weight: 700; margin-bottom: 14px; }
+
+.zona-scan { border: 2px dashed var(--border); border-radius: var(--radius); padding: 26px; text-align: center; transition: .15s; }
+.zona-scan.esperando { border-color: var(--celeste); background: #16222c; }
+.zona-scan .icono { font-size: 32px; margin-bottom: 8px; opacity: .5; }
+.zona-scan .txt { font-size: 14px; color: var(--dim); font-weight: 500; }
+.zona-scan .sub { font-family: var(--mono); font-size: 11px; color: var(--dimmer); margin-top: 6px; }
+
+input[type=text], input[type=number], select {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 11px 14px; color: var(--text);
+  font-family: var(--body); font-size: 14px; outline: none; transition: border-color .15s;
+}
+input:focus, select:focus { border-color: var(--orange); }
+input::placeholder { color: var(--dimmer); }
+input.codigo { font-family: var(--mono); font-size: 17px; letter-spacing: 2px; text-align: center; }
+
+.fila { display: flex; gap: 8px; align-items: center; }
+.fila > input { flex: 1; }
+
+label.campo { display: block; font-size: 11px; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 7px; }
+
+/* ── BOTONES ───────────────────────────────────────────────────────────── */
+button.primario {
+  width: 100%; padding: 15px; background: var(--orange); color: #000; border: none;
+  border-radius: var(--radius); font-family: var(--display); font-size: 22px;
+  letter-spacing: 2px; cursor: pointer; transition: opacity .15s;
+}
+button.primario.verde { background: var(--green); }
+button.primario.amarillo { background: var(--amarillo); }
+button.primario:hover:not(:disabled) { opacity: .85; }
+button.primario:disabled { opacity: .28; cursor: not-allowed; }
+
+button.chico {
+  padding: 8px 15px; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text); font-family: var(--body);
+  font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: .15s;
+}
+button.chico:hover { border-color: var(--orange); color: var(--orange); }
+button.chico.naranja { background: var(--orange); color: #000; border-color: var(--orange); }
+button.chico.roja { background: var(--red-dim); border-color: var(--red); color: #fca5a5; }
+
+/* ── LISTA DE ALUMNOS ──────────────────────────────────────────────────── */
+.lista-alumnos { max-height: 260px; overflow-y: auto; margin-top: 10px; border: 1px solid var(--border); border-radius: var(--radius); }
+.lista-alumnos::-webkit-scrollbar { width: 8px; }
+.lista-alumnos::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.item-alumno { padding: 11px 14px; cursor: pointer; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 10px; transition: background .1s; }
+.item-alumno:last-child { border-bottom: none; }
+.item-alumno:hover { background: var(--bg3); }
+.item-alumno.sel { background: var(--green-dim); }
+.item-alumno .nom { font-size: 14px; font-weight: 600; }
+.item-alumno .div { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+
+/* ── SELECCION CONFIRMADA ──────────────────────────────────────────────── */
+.elegido { background: var(--bg3); border: 1px solid var(--green); border-radius: var(--radius); padding: 13px 15px; display: flex; align-items: center; gap: 12px; }
+.elegido .bolita { width: 9px; height: 9px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+.elegido .n { font-size: 15px; font-weight: 700; }
+.elegido .m { font-family: var(--mono); font-size: 11px; color: var(--dim); margin-top: 2px; }
+
+/* ── TABLA / INVENTARIO ────────────────────────────────────────────────── */
+.filtros { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.filtro { padding: 6px 13px; border-radius: 2px; font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; border: 1px solid var(--border); background: none; color: var(--dim); cursor: pointer; transition: .15s; }
+.filtro.activo { background: var(--orange); border-color: var(--orange); color: #000; }
+
+.item-herr { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 15px; margin-bottom: 7px; display: flex; align-items: center; gap: 13px; }
+.item-herr .bolita { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.item-herr .bolita.libre  { background: var(--green); }
+.item-herr .bolita.parcial{ background: var(--yellow); }
+.item-herr .bolita.cero   { background: var(--red); }
+.item-herr .info { flex: 1; min-width: 0; }
+.item-herr .nom { font-size: 14px; font-weight: 600; }
+.item-herr .meta { font-family: var(--mono); font-size: 11px; color: var(--dim); margin-top: 3px; }
+.item-herr .der { text-align: right; flex-shrink: 0; }
+.cant { font-family: var(--display); font-size: 22px; line-height: 1; }
+.cant.libre { color: var(--green); } .cant.parcial { color: var(--yellow); } .cant.cero { color: var(--red); }
+.cant-sub { font-size: 10px; color: var(--dimmer); text-transform: uppercase; letter-spacing: .5px; }
+.cod { font-family: var(--mono); font-size: 11px; color: var(--dimmer); }
+
+/* ── HISTORIAL ─────────────────────────────────────────────────────────── */
+.mov { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.mov:last-child { border-bottom: none; }
+.mov .ico { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; font-weight: bold; }
+.mov .ico.retiro     { background: var(--amarillo-dim); color: var(--amarillo); }
+.mov .ico.devolucion { background: var(--green-dim);  color: var(--green); }
+.mov .cuerpo { flex: 1; min-width: 0; }
+.mov .h { font-size: 13px; font-weight: 600; }
+.mov .a { font-size: 12px; color: var(--dim); margin-top: 2px; }
+.mov .t { font-family: var(--mono); font-size: 10px; color: var(--dimmer); text-align: right; flex-shrink: 0; }
+.separador-fecha { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--dimmer); padding: 14px 0 6px; }
+
+/* ── EXITO ─────────────────────────────────────────────────────────────── */
+.exito { background: var(--bg2); border: 1px solid var(--green); border-radius: var(--radius); padding: 34px 20px; text-align: center; }
+.exito .tick { font-size: 46px; color: var(--green); line-height: 1; }
+.exito .t { font-family: var(--display); font-size: 27px; letter-spacing: 2px; color: var(--green); margin-top: 12px; }
+.exito .d { font-size: 14px; color: var(--dim); margin-top: 8px; line-height: 1.6; }
+
+.vacio { text-align: center; padding: 34px 16px; color: var(--dimmer); font-size: 13px; }
+
+/* ── TOAST ─────────────────────────────────────────────────────────────── */
+#toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(90px); background: var(--bg3); border: 1px solid var(--border); border-left: 4px solid var(--orange); border-radius: var(--radius); padding: 13px 20px; font-size: 13px; font-weight: 600; z-index: 300; transition: transform .25s; max-width: 90vw; }
+#toast.ver { transform: translateX(-50%) translateY(0); }
+#toast.error { border-left-color: var(--red); color: #fca5a5; }
+#toast.ok { border-left-color: var(--green); color: #86efac; }
+
+@media (max-width: 640px) {
+  main { padding: 14px; }
+  h1.titulo { font-size: 26px; }
+  nav button { font-size: 11px; min-width: 78px; padding: 11px 4px; }
+}
