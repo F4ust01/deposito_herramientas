@@ -174,17 +174,3 @@ Antes de cada push conviene verificar:
 ```bash
 git status --ignored | grep -E "\.env$|\.db$"
 ```
-
-## Pendiente
-
-- [ ] Exportar historial a Excel
-- [ ] Listas de 5° y 6° año (si también retiran herramientas)
-
----
-
-## Notas
-
-> **Llave fija 12**: figura con cantidad 2 (aparecía dos veces en el listado original). Corregir en `seed_data.py` si fue error de tipeo.
-> **Cepillo de acero**: figura con cantidad 1 (no tenía número en el listado).
-> **Garay, Giuliana**: unificada — figuraba dos veces (Giuliana / Yuliana) con el mismo DNI.
-> **Mendieta, Denis** y **Herrera, Cristina**: dados de baja, ya no asisten.
